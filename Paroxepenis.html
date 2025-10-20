@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParoxeLoja</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="script.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("aME196wcAdZ4C4oXi");
+        })();
+    </script>
+
+</head>
+<body>
+    <div class="promo-banner">
+        ⚡ Paroxetina - Ima de Góticas ⚡   
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">☠ PAROXELOJA ☠</div>
+            <ul class="nav-links">
+                <li><a href="#home">🔥 Começo</a></li>
+                <li><a href="#products">Goticas</a></li>
+                <li><a href="#halloween">🎃 não funciona</a></li>
+                <li><a href="https://youtu.be/kMQ_t81HxS8?si=wks9hPW9UaIXvJPW&t=507" target="_blank">tbm não funciona</a></li>
+                <li><a href="#about">Adivinha?</a></li>
+            </ul>
+            <div class="auth-buttons" id="auth-buttons">
+                <button class="btn" onclick="showLogin()">Login</button>
+                <button class="btn btn-secondary" onclick="showRegister()">Cadrastro</button>
+            </div>
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <span id="user-name" class="btn"></span>
+                <button class="btn btn-secondary" onclick="logout()">Sair</button>
+            </div>
+        </nav>
+    </header>
+    <div class="auth-container" id="login-container">
+        <form class="auth-form" onsubmit="login(event)">
+            <button type="button" class="close-btn" onclick="closeAuth()">&times;</button>
+            <h2 style="color: #ff0033; margin-bottom: 2rem; text-align: center; font-family: 'Metal Mania', cursive; font-size: 2rem;">LOGIN</h2>
+            <div class="form-group">
+                <label for="login-email">Imail:</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Senha:</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn btn-secondary" style="width: 100%;">Entrar</button>
+            <div class="forgot-password">
+                <a href="#" onclick="showPasswordRecovery(event)">Esqueceu? BURRÃO KKKKK</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="auth-container" id="recovery-container">
+        <form class="auth-form" onsubmit="recoverPassword(event)">
+            <button type="button" class="close-btn" onclick="closeAuth()">&times;</button>
+            <h2 style="color: #ff0033; margin-bottom: 1rem; text-align: center; font-family: 'Metal Mania', cursive; font-size: 2rem;">RECUPERAR SENHA</h2>
+            <p style="color: #999; text-align: center; margin-bottom: 2rem; font-size: 0.9rem;">Bota teu Email pra eu descobrir sua senha ai</p>
+            <div class="form-group">
+                <label for="recovery-email">Email:</label>
+                <input type="email" id="recovery-email" required>
+            </div>
+            <button type="submit" class="btn btn-secondary" style="width: 100%;">Enviar</button>
+            <div class="forgot-password">
+                <a href="#" onclick="showLogin(); event.preventDefault();">Voltar para Login</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="auth-container" id="login-container">
+        <form class="auth-form" onsubmit="login(event)">
+            <button type="button" class="close-btn" onclick="closeAuth()">&times;</button>
+            <h2 style="color: #ff0033; margin-bottom: 2rem; text-align: center; font-family: 'Metal Mania', cursive; font-size: 2rem;">LOGIN</h2>
+            <div class="form-group">
+                <label for="login-email">Imail:</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Senha:</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn btn-secondary" style="width: 100%;">Entrar</button>
+        </form>
+    </div>
+
+
+    <div class="auth-container" id="register-container">
+        <form class="auth-form" onsubmit="register(event)">
+            <button type="button" class="close-btn" onclick="closeAuth()">&times;</button>
+            <h2 style="color: #ff0033; margin-bottom: 2rem; text-align: center; font-family: 'Metal Mania', cursive; font-size: 2rem;">CADRASTRO</h2>
+            <div class="form-group">
+                <label for="register-name">Nome:</label>
+                <input type="text" id="register-name" required>
+            </div>
+            <div class="form-group">
+                <label for="register-email">Imail:</label>
+                <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Senha:</label>
+                <input type="password" id="register-password" required>
+            </div>
+            <button type="submit" class="btn btn-secondary" style="width: 100%;">Cadrastrar</button>
+        </form>
+    </div>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Nois ri nois zoa mas quando chega o domingo a noite...</h1>
+                <p class="subtitle">Paroxetina Gosta de Gótica</p>
+                <h2> E o Felps também</h2>
+                <button class="btn" onclick="document.getElementById('products').scrollIntoView()">Goticas google buscar</button>
+            </div>
+        </section>
+        <section class="dashboard" id="dashboard">
+            <div class="user-info">
+                <h2 class="welcome-msg">Fez login né safada?</h2>
+                <p>Olha as gotica da loja</p>
+            </div>
+        </section>
+        <div class="discount-banner">
+            <div class="discount-item">
+                <div class="discount-title">Compre 2 Ganhe</div>
+                <div class="discount-percent">12% OFF</div>
+            </div>
+            <div class="discount-item">
+                <div class="discount-title">Compre 3 Ganhe</div>
+                <div class="discount-percent">15% OFF</div>
+            </div>
+            <div class="discount-item">
+                <div class="discount-title">Compre 4 Ganhe</div>
+                <div class="discount-percent">18% OFF</div>
+            </div>
+            <div class="discount-item">
+                <div class="discount-title">Compre 6 Ganhe</div>
+                <div class="discount-percent">20% OFF</div>
+            </div>
+        </div>
+
+        <section class="products" id="products">
+            <h2 class="section-title">☠ Catalogo de Gotica ☠</h2>
+            
+            <div class="category-filter">
+                <button class="category-btn active" data-category="all">Isso</button>
+                <button class="category-btn" data-category="gothic">parou</button>
+                <button class="category-btn" data-category="y2k">de</button>
+                <button class="category-btn" data-category="halloween">funcionar</button>
+                <button class="category-btn" data-category="emo">faz</button>
+                <button class="category-btn" data-category="streetwear">tempo</button>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card" data-category="gothic">
+                    <div class="product-image">
+                        <img src="Monster.png" alt="Vestido Gothic Lolita">
+                        <div class="product-badge">Novo</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Monstro gotico</div>
+                        <h3>Monster Gotica Rabuda</h3>
+                        <p>Monster Gotica Rabuda das trevas trevosas</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ todos</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Monster Rabudo', 299, 'monster.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="emo">
+                    <div class="product-image">
+                        <img src="Gotica.jpg" alt="Camiseta Emo Scream">
+                        <div class="product-badge">HOT</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica Rabuda</div>
+                        <h3>Gotica de Alta Renda</h3>
+                        <p>Gótica Rabuda de Alta renda </p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ Um pouco mais</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gótica', 89, 'gotica.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="Goticapobre.jpg" alt="Alpha Male Tee">
+                        <div class="product-badge">Pobre</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica Rabuda</div>
+                        <h3>Gótica de baixa renda</h3>
+                        <p>Gótica de baixa renda social miseravel, passa fome, em situações precarias, desmoralizada, aniquilação social</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ Um pouco menos</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gótica de Baixa renda', 69, 'Goticapobre.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="halloween">
+                    <div class="product-image">
+                        <img src="Goticaderenda.jpeg" alt="Halloween Dress">
+                        <div class="product-badge">Renda</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica Rabuda</div>
+                        <h3>Gótica de Renda</h3>
+                        <p>Uma Gotica. Usando Renda.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Quase isso</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gótica de Renda', 67, 'Goticaderenda')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="gothic">
+                    <div class="product-image">
+                        <img src="Goticalouca.png" alt="Knit Sweatshirt">
+                        <div class="product-badge">Machista</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica Rabuda</div>
+                        <h3>Gótica de louça</h3>
+                        <p>Gotica que lava louça</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 249</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gotica de louça', 249, 'Goticalouca')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="streetwear">
+                    <div class="product-image">
+                        <img src="goticafurry.jpeg" alt="Calça Cargo">
+                        <div class="product-badge">Peluda</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica Peluda</div>
+                        <h3>Gotica Furry</h3>
+                        <p>Gotica Furry esquizoide com problema mental. Barato pois niguem Compra</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ Não</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gotica Furry', 0, 'goticafurry')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="gothic">
+                    <div class="product-image">
+                        <img src="Goticapreta.png" alt="Corset Gothic">
+                        <div class="product-badge">Horrenda</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica de alta melanina</div>
+                        <h3>Gótica Preta</h3>
+                        <p>Seila kkkkkk foto feia da poha</p>
+                        <div class="product-footer">
+                            <div class="product-price">Alguem paga por isso?</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gotica preta', 1, 'goticapreta.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="emo">
+                    <div class="product-image">
+                        <img src="goticacareca.jpg" alt="Banda Tee">
+                        <div class="product-badge">Carecakkkk</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica calva</div>
+                        <h3>Gotica Careca</h3>
+                        <p>Uma mulher desprovida de cabelos usando roupas goticas.</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 99</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gotica Careca', 99, 'goticacareca.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="Goticahomem.png" alt="Cyber Jacket">
+                        <div class="product-badge">Velho</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica espero que nao rabudo</div>
+                        <h3>Gotica Homem</h3>
+                        <p>Um velho idoso incardido monumento estorico vestido de gotica.</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 67 mangos mustard</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gotica Homem', 67, 'Goticahomem.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="halloween">
+                    <div class="product-image">
+                        <img src="Goticagorda.jpg" alt="Witch Hat">
+                        <div class="product-badge">GRANDE</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Gotica plus size</div>
+                        <h3>Gotica Imensa</h3>
+                        <p>Gótica gorda imensa enorme incontornavel extremamente visivel ponto com ponto be erre (foto tirada via satélite)</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 149</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Gotica Imensa', 8849, 'Goticagorda.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="streetwear">
+                    <div class="product-image">
+                        <img src="Lauraposser.png" alt="Platform Boots">
+                        <div class="product-badge">POSSER</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Posa mesmo</div>
+                        <h3>Laura Posser</h3>
+                        <p>É a Laura e ela posa mesmo</p>
+                        <div class="product-footer">
+                            <div class="product-price">amostra gratis</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Laura Posser', 399, 'Lauraposser.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="megagotica.jpg" alt="Butterfly Top">
+                        <div class="product-badge">Mega</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Mega</div>
+                        <h3>MegaPlayer</h3>
+                        <p>MegaPlayer Vesgo</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 69</div>
+                            <button class="btn btn-secondary" onclick="addToCart('MegaPlayer', 79, 'megagotica.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="Goticajoao.jpg" alt="Butterfly Top">
+                        <div class="product-badge">20mg</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Parox</div>
+                        <h3>Gotica João dominando garrafa</h3>
+                        <p>Eu dominando uma garrafa sobre meu peito no bar em frente ao catuai</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 20mg</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Paroxetina', 79, 'Goticajoao.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="felipe.png" alt="Butterfly Top">
+                        <div class="product-badge">Gostosa</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Goticas kinder ovo</div>
+                        <h3> Felipe gotica usando saia</h3>
+                        <p>Felipe usando saia</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ six seven</div>
+                            <button class="btn btn-secondary" onclick="addToCart('felps0072', 67, 'felipe.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="bertoldo.png" alt="Butterfly Top">
+                        <div class="product-badge">Bomba</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Goticas kinder ovo</div>
+                        <h3>Gotica Bertoldo tambem usando saia</h3>
+                        <p>Rafael bertoldo variola usando saia</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$ 79</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Bertoldo', 79, 'bertoldo.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="y2k">
+                    <div class="product-image">
+                        <img src="image.png" alt="Butterfly Top">
+                        <div class="product-badge">Femboy</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Goticas kinder ovo</div>
+                        <h3>Paroxetina gotica Femboy</h3>
+                        <p>Paroxetina usando moletom feminino e meias de cano alto da Laura Camara lopes da silva vulgo irma do felipe. to gostosa dms slk eu me comia facil</p>
+                        <div class="product-footer">
+                            <div class="product-price">R$SIM</div>
+                            <button class="btn btn-secondary" onclick="addToCart('Paroxetin', 79999, 'image.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+        <section class="about-section" id="about">
+            <h2 class="about-title">☠ SOBRE NÓS ☠</h2>
+            <p class="about-intro">
+                Três almas penadas se juntando para produzir mais uma obra de arte para nossos telespectadores.     
+            </p>
+
+            <div class="founders-grid">
+                <article class="founder-card">
+                  
+  <img src="nein3.png" alt="Felps0072" class="founder-image">
+                    <h3 class="founder-name">Felps0072</h3>
+                    <p class="founder-role">Pertubado 2</p>
+                    <p class="founder-bio">
+                        O segundo mais pertubado do grupo, a presença desse cara me faz 3x mais esquisito que o normal. Deu uma boa parte das ideias e ajudou com o design geral do site.
+                    </p>
+                    <div class="founder-social">
+                        <a href="https://www.instagram.com/felpz_gc" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </article>
+                <article class="founder-card">
+                      <img src="Silkasongas2.png" alt="Paroxetina20mg" class="founder-image">
+                    <h3 class="founder-name">Paroxetina20mg</h3>
+                    <p class="founder-role"> O que fez quase tudo (dnv)</p>
+                    <p class="founder-bio">
+                        Depressivo bipolar, autismo nivel 3 com hiperfoco em hollow knight. Focado em reproduzir as ideias pertubadas de sua cabeça para seus projetos assim nascendo as maiores artes cinematograficas do CEEP. Desde 2009 carregando o peso de sua propria existencia e o vazio imensuravel que habita em sua alma, grande Parox
+                    </p>
+                    <div class="founder-social">
+                        <a href="https://www.instagram.com/paroxetin20mg" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/channel/UC1ZB1sXU2O6SnOvPIevjyCw" title="youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://open.spotify.com/playlist/7dzCMVwNiuBTBEPwlQ1Nis?si=7fb3cc3b668f4d1c" title="Spotify" target="_blank"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </article>
+
+                <article class="founder-card">
+                    <img src="Morganchupa.png" alt="Megaplayer" class="founder-image">
+                    <h3 class="founder-name">Megaplayer</h3>
+                    <p class="founder-role">Mega Jogador</p>
+                    <p class="founder-bio">
+                        Megaplayer, com certeza é um GRANDE homem ele basicamente deu umas ideia aqui outra ali, ajudou a escolher umas fotos e teve que me impedir de cometar atos criminosos e que provavelmente me levariam diretamente preso.
+                    </p>
+                    <div class="founder-social">
+                        <a href="https://www.instagram.com/gabrielbrustolinf" title="Instagram"  target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+        </div>
+    </footer>
+
+    <div class="cart-icon" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <div class="cart-count" id="cart-count">0</div>
+    </div>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>🛒 Seu Carrinho vrum vrum</h2>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <i class="fas fa-ghost"></i>
+                <p>Tem nada aqui não doido</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="cart-total-label">Total:</span>
+                <span class="cart-total-value" id="cart-total">R$ 0</span>
+            </div>
+            <button class="cart-checkout" id="checkout-btn" disabled onclick="checkout()">
+                Compra logo seu verme
+            </button>
+        </div>
+    </div>
+</body>
+</html>
