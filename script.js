@@ -2,13 +2,13 @@
         let currentUser = null;
         let cart = [];
 
-        // Toggle Cart
+  
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
             sidebar.classList.toggle('open');
         }
 
-        // Scroll to Top Function
+
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -16,7 +16,7 @@
             });
         }
 
-        // Show/Hide Back to Top Button
+      
         window.addEventListener('scroll', function() {
             const backToTop = document.getElementById('backToTop');
             const hero = document.querySelector('.hero');
@@ -27,14 +27,12 @@
                 backToTop.classList.remove('visible');
             }
 
-            // Parallax effect on hero
-            if (hero) {
+                if (hero) {
                 const scrolled = window.pageYOffset;
                 hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
             }
         });
 
-        // Add to Cart
         function addToCart(name, price, image) {
             if (!currentUser) {
                 showNotification('Faça login para adicionar produtos ao carrinho! 🔒', 'error');
@@ -55,14 +53,12 @@
             pulseCart();
         }
 
-        // Remove from Cart
         function removeFromCart(index) {
             cart.splice(index, 1);
             updateCart();
             showNotification('Item removido do carrinho! 🗑️', 'success');
         }
 
-        // Update Cart Display
         function updateCart() {
             const cartItems = document.getElementById('cart-items');
             const cartCount = document.getElementById('cart-count');
@@ -107,7 +103,6 @@
             checkoutBtn.disabled = false;
         }
 
-        // Pulse Cart Icon
         function pulseCart() {
             const cartIcon = document.querySelector('.cart-icon');
             cartIcon.style.animation = 'none';
@@ -142,7 +137,6 @@
             }, 2000);
         }
 
-        // Category Filter
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
@@ -205,7 +199,6 @@
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
 
-            // Validação simples do formulário
             if (name.length < 3) {
                 showNotification('Nome deve ter pelo menos 3 caracteres! ⚠', 'error');
                 return;
@@ -234,7 +227,6 @@
             closeAuth();
             showNotification('Cadastro realizado com sucesso! Bem-vindo(a), ' + name + '! 🖤', 'success');
             
-            // Limpar formulário
             document.getElementById('register-name').value = '';
             document.getElementById('register-email').value = '';
             document.getElementById('register-password').value = '';
@@ -287,7 +279,6 @@
             }, 3500);
         }
 
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -298,7 +289,6 @@
             });
         });
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeAuth();
@@ -307,14 +297,12 @@
                     toggleCart();
                 }
             }
-            // Atalho para abrir carrinho (Ctrl + K)
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
                 toggleCart();
             }
         });
 
-        // Add animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideIn {
@@ -330,7 +318,6 @@
         `;
         document.head.appendChild(style);
 
-        // Parallax effect on hero
         window.addEventListener('scroll', function() {
             const hero = document.querySelector('.hero');
             const scrolled = window.pageYOffset;
@@ -339,7 +326,6 @@
             }
         });
 
-        // Product card animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
@@ -364,7 +350,6 @@
             observer.observe(card);
         });
 
-        // Add glitch effect on logo
         const logo = document.querySelector('.logo');
         setInterval(() => {
             logo.style.textShadow = `
@@ -376,7 +361,6 @@
             }, 100);
         }, 3000);
 
-        // Discount banner animation
         const discountItems = document.querySelectorAll('.discount-item');
         discountItems.forEach((item, index) => {
             item.style.opacity = '0';
@@ -388,7 +372,6 @@
             }, index * 200);
         });
 
-        // Product badge animations
         document.querySelectorAll('.product-badge').forEach(badge => {
             setInterval(() => {
                 badge.style.transform = 'scale(1.1) rotate(5deg)';
@@ -398,7 +381,6 @@
             }, 4000 + Math.random() * 2000);
         });
 
-        // Loading animation
         window.addEventListener('load', function() {
             document.body.style.opacity = '0';
             setTimeout(() => {
@@ -422,7 +404,6 @@
             event.preventDefault();
             const email = document.getElementById('recovery-email').value;
 
-            // Verifica se o email existe
             const user = users.find(u => u.email === email);
 
             if (user) {
@@ -436,14 +417,11 @@
             }
         }
 
-                    // Gera um código de recuperação temporário
             const recoveryCode = Math.random().toString(36).substring(2, 10).toUpperCase();
             
-            // Armazena o código temporariamente (em um cenário real, isso seria no servidor)
             user.recoveryCode = recoveryCode;
-            user.recoveryExpires = Date.now() + (15 * 60 * 1000); // Expira em 15 minutos
+            user.recoveryExpires = Date.now() + (15 * 60 * 1000); 
 
-            // Parâmetros para o template de email
             const templateParams = {
                 to_email: email,
                 to_name: user.name,
@@ -452,7 +430,6 @@
                 store_name: 'Paroxetina Gothic Store'
             };
 
-            // Envia o email via EmailJS
             emailjs.send('service_8i1u8jp', 'template_zmhld5q', templateParams)
                 .then(function(response) {
                     console.log('Email enviado com sucesso!', response.status, response.text);
@@ -471,3 +448,4 @@
                     submitBtn.textContent = originalText;
                 });
         
+
