@@ -1,37 +1,42 @@
-        let users = [];
+let users = [];
         let currentUser = null;
         let cart = [];
+        let logoAudio = null;
 
-  
+        // Initialize Audio
+        function initAudio() {
+            // Cria o objeto de áudio com o arquivo MP3
+            logoAudio = new Audio('zoioeutedesafio.mp3');
+            logoAudio.volume = 0.7; // Volume a 70%
+            
+            window.playLogoSound = function() {
+                // Para o áudio se já estiver tocando e reinicia
+                if (logoAudio) {
+                    logoAudio.currentTime = 0;
+                    logoAudio.play().catch(error => {
+                        console.log('Erro ao tocar áudio:', error);
+                    });
+                    
+                    // Efeito visual sincronizado
+                    const logo = document.querySelector('.logo');
+                    logo.style.textShadow = '0 0 40px rgba(255, 0, 51, 1), 0 0 80px rgba(255, 0, 51, 0.8)';
+                    logo.style.transform = 'scale(1.1) rotate(-5deg)';
+                    
+                    setTimeout(() => {
+                        logo.style.textShadow = '0 0 10px rgba(255, 0, 51, 0.8), 0 0 20px rgba(255, 0, 51, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.8)';
+                        logo.style.transform = 'scale(1) rotate(0deg)';
+                    }, 300);
+                }
+            };
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initAudio);
+
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
             sidebar.classList.toggle('open');
         }
-
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-      
-        window.addEventListener('scroll', function() {
-            const backToTop = document.getElementById('backToTop');
-            const hero = document.querySelector('.hero');
-            
-            if (window.pageYOffset > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-
-                if (hero) {
-                const scrolled = window.pageYOffset;
-                hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
-            }
-        });
 
         function addToCart(name, price, image) {
             if (!currentUser) {
@@ -50,7 +55,6 @@
 
             updateCart();
             showNotification(`${name} adicionado ao carrinho! 🛒`, 'success');
-            pulseCart();
         }
 
         function removeFromCart(index) {
@@ -69,7 +73,7 @@
                 cartItems.innerHTML = `
                     <div class="cart-empty">
                         <i class="fas fa-ghost"></i>
-                        <p>Seu carrinho está vazio</p>
+                        <p>Tem nada aqui não doido</p>
                     </div>
                 `;
                 cartCount.textContent = '0';
@@ -103,15 +107,6 @@
             checkoutBtn.disabled = false;
         }
 
-        function pulseCart() {
-            const cartIcon = document.querySelector('.cart-icon');
-            cartIcon.style.animation = 'none';
-            setTimeout(() => {
-                cartIcon.style.animation = 'float 3s ease-in-out infinite, shake 0.5s ease';
-            }, 10);
-        }
-
-        // Checkout
         function checkout() {
             if (!currentUser) {
                 showNotification('Faça login para finalizar a compra! 🔒', 'error');
@@ -137,43 +132,55 @@
             }, 2000);
         }
 
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const productCards = document.querySelectorAll('.product-card');
 
-                const category = this.dataset.category;
-                const products = document.querySelectorAll('.product-card');
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
 
-                products.forEach(product => {
-                    if (category === 'all' || product.dataset.category === category) {
-                        product.style.display = 'block';
-                        setTimeout(() => {
-                            product.style.opacity = '1';
-                            product.style.transform = 'translateY(0)';
-                        }, 100);
-                    } else {
-                        product.style.opacity = '0';
-                        product.style.transform = 'translateY(50px)';
-                        setTimeout(() => {
-                            product.style.display = 'none';
-                        }, 300);
-                    }
+                    const category = this.dataset.category;
+
+                    productCards.forEach(card => {
+                        if (category === 'all') {
+                            card.classList.remove('hidden');
+                            card.style.display = 'block';
+                        } else if (card.dataset.category === category) {
+                            card.classList.remove('hidden');
+                            card.style.display = 'block';
+                        } else {
+                            card.classList.add('hidden');
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
                 });
             });
         });
 
         function showLogin() {
+            closeAuth();
             document.getElementById('login-container').style.display = 'flex';
         }
 
         function showRegister() {
+            closeAuth();
             document.getElementById('register-container').style.display = 'flex';
+        }
+
+        function showPasswordRecovery(event) {
+            if (event) event.preventDefault();
+            closeAuth();
+            document.getElementById('recovery-container').style.display = 'flex';
         }
 
         function closeAuth() {
             document.getElementById('login-container').style.display = 'none';
             document.getElementById('register-container').style.display = 'none';
+            document.getElementById('recovery-container').style.display = 'none';
         }
 
         function login(event) {
@@ -232,6 +239,22 @@
             document.getElementById('register-password').value = '';
         }
 
+        function recoverPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('recovery-email').value;
+            const user = users.find(u => u.email === email);
+
+            if (user) {
+                showNotification(`Email de recuperação enviado para ${email}! Verifique sua caixa de entrada. 📧`, 'success');
+                setTimeout(() => {
+                    closeAuth();
+                    document.getElementById('recovery-email').value = '';
+                }, 2000);
+            } else {
+                showNotification('Email não encontrado em nossa base de dados! ⚠', 'error');
+            }
+        }
+
         function logout() {
             currentUser = null;
             cart = [];
@@ -253,23 +276,34 @@
             document.getElementById('dashboard').style.display = 'none';
         }
 
+        function openSecretPage() {
+            document.getElementById('secret-page').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showNotification('🔥 VOCÊ ENCONTROU O PRODUTO SECRETO! 🔥', 'success');
+        }
+
+        function closeSecretPage() {
+            document.getElementById('secret-page').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
         function showNotification(message, type) {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
                 top: 100px;
                 right: 20px;
-                padding: 1.2rem 2rem;
+                padding: 1.5rem 2.5rem;
                 background: ${type === 'success' ? '#ff0033' : '#000'};
                 color: #fff;
-                border: 2px solid ${type === 'success' ? '#fff' : '#ff0033'};
-                z-index: 3000;
+                border: 3px solid ${type === 'success' ? '#fff' : '#ff0033'};
+                z-index: 5000;
                 font-weight: bold;
                 text-transform: uppercase;
-                letter-spacing: 1px;
+                letter-spacing: 1.5px;
                 animation: slideIn 0.3s ease;
-                box-shadow: 0 5px 20px rgba(255, 0, 51, 0.5);
-                max-width: 350px;
+                box-shadow: 0 10px 30px rgba(255, 0, 51, 0.6);
+                max-width: 400px;
             `;
             notification.textContent = message;
             document.body.appendChild(notification);
@@ -292,31 +326,13 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeAuth();
+                closeSecretPage();
                 const sidebar = document.getElementById('cart-sidebar');
                 if (sidebar.classList.contains('open')) {
                     toggleCart();
                 }
             }
-            if (e.ctrlKey && e.key === 'k') {
-                e.preventDefault();
-                toggleCart();
-            }
         });
-
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            
-            @keyframes shake {
-                0%, 100% { transform: rotate(0deg); }
-                25% { transform: rotate(-10deg); }
-                75% { transform: rotate(10deg); }
-            }
-        `;
-        document.head.appendChild(style);
 
         window.addEventListener('scroll', function() {
             const hero = document.querySelector('.hero');
@@ -325,127 +341,3 @@
                 hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
             }
         });
-
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '0';
-                    entry.target.style.transform = 'translateY(50px)';
-                    setTimeout(() => {
-                        entry.target.style.transition = 'all 0.6s ease';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, 100);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.product-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        const logo = document.querySelector('.logo');
-        setInterval(() => {
-            logo.style.textShadow = `
-                ${Math.random() * 5}px ${Math.random() * 5}px 4px rgba(255, 0, 51, 0.5),
-                ${Math.random() * -5}px ${Math.random() * 5}px 4px rgba(0, 255, 255, 0.3)
-            `;
-            setTimeout(() => {
-                logo.style.textShadow = '2px 2px 4px rgba(255, 0, 51, 0.5)';
-            }, 100);
-        }, 3000);
-
-        const discountItems = document.querySelectorAll('.discount-item');
-        discountItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                item.style.transition = 'all 0.5s ease';
-                item.style.opacity = '1';
-                item.style.transform = 'scale(1)';
-            }, index * 200);
-        });
-
-        document.querySelectorAll('.product-badge').forEach(badge => {
-            setInterval(() => {
-                badge.style.transform = 'scale(1.1) rotate(5deg)';
-                setTimeout(() => {
-                    badge.style.transform = 'scale(1) rotate(0deg)';
-                }, 300);
-            }, 4000 + Math.random() * 2000);
-        });
-
-        window.addEventListener('load', function() {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-                function showPasswordRecovery(event) {
-            if (event) event.preventDefault();
-            closeAuth();
-            document.getElementById('recovery-container').style.display = 'flex';
-        }
-
-        function closeAuth() {
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('register-container').style.display = 'none';
-            document.getElementById('recovery-container').style.display = 'none';
-        }
-
-        function recoverPassword(event) {
-            event.preventDefault();
-            const email = document.getElementById('recovery-email').value;
-
-            const user = users.find(u => u.email === email);
-
-            if (user) {
-                showNotification(`Email de recuperação enviado para ${email}! Verifique sua caixa de entrada. 📧`, 'success');
-                setTimeout(() => {
-                    closeAuth();
-                    document.getElementById('recovery-email').value = '';
-                }, 2000);
-            } else {
-                showNotification('Email não encontrado em nossa base de dados! ⚠', 'error');
-            }
-        }
-
-            const recoveryCode = Math.random().toString(36).substring(2, 10).toUpperCase();
-            
-            user.recoveryCode = recoveryCode;
-            user.recoveryExpires = Date.now() + (15 * 60 * 1000); 
-
-            const templateParams = {
-                to_email: email,
-                to_name: user.name,
-                recovery_code: recoveryCode,
-                user_name: user.name,
-                store_name: 'Paroxetina Gothic Store'
-            };
-
-            emailjs.send('service_8i1u8jp', 'template_zmhld5q', templateParams)
-                .then(function(response) {
-                    console.log('Email enviado com sucesso!', response.status, response.text);
-                    showNotification(`✅ Email enviado para ${email}! Verifique sua caixa de entrada (e spam). 📧`, 'success');
-                    
-                    setTimeout(() => {
-                        closeAuth();
-                        document.getElementById('recovery-email').value = '';
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = originalText;
-                    }, 2000);
-                }, function(error) {
-                    console.error('Erro ao enviar email:', error);
-                    showNotification('❌ Erro ao enviar email. Tente novamente mais tarde.', 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                });
-        
-
