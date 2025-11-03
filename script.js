@@ -3,21 +3,16 @@ let users = [];
         let cart = [];
         let logoAudio = null;
 
-        // Initialize Audio
         function initAudio() {
-            // Cria o objeto de áudio com o arquivo MP3
-            logoAudio = new Audio('zoioeutedesafio.mp3');
-            logoAudio.volume = 0.7; // Volume a 70%
+            logoAudio.volume = 1.0;
             
             window.playLogoSound = function() {
-                // Para o áudio se já estiver tocando e reinicia
                 if (logoAudio) {
                     logoAudio.currentTime = 0;
                     logoAudio.play().catch(error => {
                         console.log('Erro ao tocar áudio:', error);
                     });
                     
-                    // Efeito visual sincronizado
                     const logo = document.querySelector('.logo');
                     logo.style.textShadow = '0 0 40px rgba(255, 0, 51, 1), 0 0 80px rgba(255, 0, 51, 0.8)';
                     logo.style.transform = 'scale(1.1) rotate(-5deg)';
@@ -30,7 +25,6 @@ let users = [];
             };
         }
 
-        // Initialize on page load
         document.addEventListener('DOMContentLoaded', initAudio);
 
         function toggleCart() {
