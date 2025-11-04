@@ -4,7 +4,7 @@ let users = [];
         let logoAudio = null;
 
         function initAudio() {
-                logoAudio = new Audio('zoioeutedesafio.mp3');
+            logoAudio = new Audio('zoioeutedesafio.mp3');
             logoAudio.volume = 1.0;
             
             window.playLogoSound = function() {
